@@ -19,24 +19,30 @@ export default function ReleaseForm({ onCreated }) {
     e.preventDefault();
 
     if (form.name.trim() === "") {
-  alert("Release name is required");
-  return;
-}
+      alert("Release name is required");
+      return;
+    }
 
-if (form.dueDate === "") {
-  alert("Due date is required");
-  return;
-}
+    if (form.dueDate === "") {
+      alert("Due date is required");
+      return;
+    }
 
-    await api.post("/releases", form);
+    try {
+      await api.post("/releases", form);
 
-setForm({
-  name: "",
-  dueDate: "",
-  additional: "",
-});
+      setForm({
+        name: "",
+        dueDate: "",
+        additional: "",
+      });
 
-onCreated();
+      onCreated();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create release");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -66,8 +72,7 @@ onCreated();
         onChange={handleChange}
       />
 
-      <button>Create</button>
+      <button type="submit">Create</button>
     </form>
   );
-}
 }
