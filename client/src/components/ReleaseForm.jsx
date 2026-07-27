@@ -17,7 +17,17 @@ export default function ReleaseForm({ onCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/releases", {
+    if (form.name.trim() === "") {
+  alert("Release name is required");
+  return;
+}
+
+if (form.dueDate === "") {
+  alert("Due date is required");
+  return;
+}
+
+    const res = await fetch("https://release-checklist-4gnm.onrender.com/api/releases", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

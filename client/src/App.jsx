@@ -11,7 +11,7 @@ const [loading, setLoading] = useState(true);
   const loadReleases = async () => {
   setLoading(true);
 
-  const res = await fetch("http://localhost:5000/api/releases");
+  const res = await fetch("https://release-checklist-4gnm.onrender.com");
   const data = await res.json();
 
   setReleases(data);

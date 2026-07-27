@@ -5,7 +5,7 @@ export default function ReleaseCard({ release, refresh }) {
 
   const updateStep = async (step) => {
     await fetch(
-      `http://localhost:5000/api/releases/${release.id}/steps`,
+      `https://release-checklist-4gnm.onrender.com/api/releases/${release.id}/steps`,
       {
         method: "PATCH",
         headers: {
@@ -23,7 +23,7 @@ export default function ReleaseCard({ release, refresh }) {
   };
 
   const saveAdditional = async () => {
-    await fetch(`http://localhost:5000/api/releases/${release.id}`, {
+    await fetch(`https://release-checklist-4gnm.onrender.com/api/releases/${release.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function ReleaseCard({ release, refresh }) {
   if (!window.confirm("Delete this release?")) return;
 
   await fetch(
-    `http://localhost:5000/api/releases/${release.id}`,
+    `https://release-checklist-4gnm.onrender.com/api/releases/${release.id}`,
     {
       method: "DELETE",
     }
