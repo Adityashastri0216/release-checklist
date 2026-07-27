@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../services/api";
 
 export default function ReleaseForm({ onCreated }) {
   const [form, setForm] = useState({
@@ -27,24 +28,15 @@ if (form.dueDate === "") {
   return;
 }
 
-    const res = await fetch("https://release-checklist-4gnm.onrender.com/api/releases", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+    await api.post("/releases", form);
 
-    if (res.ok) {
-      setForm({
-        name: "",
-        dueDate: "",
-        additional: "",
-      });
+setForm({
+  name: "",
+  dueDate: "",
+  additional: "",
+});
 
-      onCreated();
-    }
-  };
+onCreated();
 
   return (
     <form onSubmit={handleSubmit} className="form">

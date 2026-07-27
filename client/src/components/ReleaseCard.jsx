@@ -1,37 +1,23 @@
 import { useState } from "react";
+import api from "../services/api";
 
 export default function ReleaseCard({ release, refresh }) {
   const [additional, setAdditional] = useState(release.additional);
 
   const updateStep = async (step) => {
-    await fetch(
-      `https://release-checklist-4gnm.onrender.com/api/releases/${release.id}/steps`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          steps: {
-            [step]: !release.steps[step],
-          },
-        }),
-      }
-    );
+    await api.patch(`/releases/${release.id}/steps`, {
+  steps: {
+    [step]: !release.steps[step],
+  },
+});
 
     refresh();
   };
 
   const saveAdditional = async () => {
-    await fetch(`https://release-checklist-4gnm.onrender.com/api/releases/${release.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        additional,
-      }),
-    });
+   await api.patch(`/releases/${release.id}`, {
+  additional,
+});
 
     refresh();
   };
@@ -39,12 +25,7 @@ export default function ReleaseCard({ release, refresh }) {
   const deleteRelease = async () => {
   if (!window.confirm("Delete this release?")) return;
 
-  await fetch(
-    `https://release-checklist-4gnm.onrender.com/api/releases/${release.id}`,
-    {
-      method: "DELETE",
-    }
-  );
+  await api.delete(`/releases/${release.id}`);
 
   refresh();
 };

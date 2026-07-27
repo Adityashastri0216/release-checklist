@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
+import api from "./services/api";
 import ReleaseForm from "./components/ReleaseForm";
 import ReleaseList from "./components/ReleaseList";
 
@@ -9,14 +9,17 @@ const [releases, setReleases] = useState([]);
 const [loading, setLoading] = useState(true);
 
   const loadReleases = async () => {
-  setLoading(true);
+  try {
+    setLoading(true);
 
-  const res = await fetch("https://release-checklist-4gnm.onrender.com");
-  const data = await res.json();
+    const res = await api.get("/releases");
 
-  setReleases(data);
-
-  setLoading(false);
+    setReleases(res.data);
+  } catch (error) {
+    console.error("Failed to load releases:", error);
+  } finally {
+    setLoading(false);
+  }
 };
 
   useEffect(() => {
